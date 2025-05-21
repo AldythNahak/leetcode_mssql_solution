@@ -1,3 +1,11 @@
+IF OBJECT_ID('Employee') IS NOT NULL
+    DROP TABLE Employee
+
+Create table Employee (id int, salary int)
+insert into Employee (id, salary) values ('1', '100')
+insert into Employee (id, salary) values ('2', '200')
+insert into Employee (id, salary) values ('3', '300')
+
 DECLARE @secondSalary INT;
 SET @secondSalary = (SELECT TOP 1 CASE 
     WHEN a.salary = (SELECT MAX(salary) FROM Employee) THEN NULL

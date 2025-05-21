@@ -1,3 +1,12 @@
+IF OBJECT_ID('Employee') IS NOT NULL
+    DROP TABLE Employee
+
+Create table  Employee (Id int, Salary int)
+insert into Employee (id, salary) values ('1', '100')
+insert into Employee (id, salary) values ('2', '200')
+insert into Employee (id, salary) values ('3', '300')
+
+
 CREATE FUNCTION getNthHighestSalary(@N INT) RETURNS INT AS
 BEGIN
     DECLARE @nHighestSalary INT;
