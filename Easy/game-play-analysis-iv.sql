@@ -14,9 +14,16 @@ DECLARE @total_player INT
 SET @total_player = (SELECT COUNT(DISTINCT player_id) FROM Activity)
 
 ;WITH logActivity AS (
-	SELECT player_id, LEAD(event_date) OVER (PARTITION BY player_id ORDER BY event_date ASC) AS n_date
+	SELECT DISTINCT player_id, LEAD(event_date) OVER (PARTITION BY player_id ORDER BY event_date ASC) AS n_date
 	FROM Activity
 	GROUP BY player_id, event_date
-) SELECT ROUND(1 * (CAST(COUNT(player_id) AS FLOAT) / CAST(@total_player AS FLOAT)), 2) AS fraction 
-FROM logActivity
-WHERE n_date IS NOT NULL AND DATEDIFF(DAY, (SELECT MIN(event_date) FROM Activity WHERE player_id = player_id), n_date) BETWEEN 0 AND 2
+) 
+SELECT ROUND(1 * (CAST(COUNT(DISTINCT a.player_id) AS FLOAT) / CAST(@total_player AS FLOAT)), 2) AS fraction 
+FROM logActivity AS a
+LEFT JOIN (
+	SELECT player_id, MIN(event_date) AS first_date_login
+	FROM Activity
+	GROUP BY player_id
+) AS b
+ON a.player_id = b.player_id
+WHERE a.n_date IS NOT NULL AND DATEDIFF(DAY, b.first_date_login, n_date) < 2
