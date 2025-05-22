@@ -12,3 +12,5 @@ insert into Stadium (id, visit_date, people) values ('5', '2017-01-05', '145')
 insert into Stadium (id, visit_date, people) values ('6', '2017-01-06', '1455')
 insert into Stadium (id, visit_date, people) values ('7', '2017-01-07', '199')
 insert into Stadium (id, visit_date, people) values ('8', '2017-01-09', '188')
+
+
